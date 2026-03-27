@@ -1,0 +1,30 @@
+export const LAYOUT = {
+  iPadBreakpoint: 768,
+  listColumnWidth: 380,
+  headerHeight: 56,
+  tabBarHeight: 60,
+  borderRadius: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
+    full: 999,
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 48,
+  },
+  fontSize: {
+    xs: 11,
+    sm: 13,
+    md: 15,
+    lg: 17,
+    xl: 20,
+    xxl: 24,
+    xxxl: 30,
+  },
+} as const;
