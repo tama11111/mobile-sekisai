@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import type { RootTabParamList } from '@/types/navigation';
+import HomeScreen from '@/screens/HomeScreen';
 import CaseStackNavigator from './CaseStackNavigator';
 import NewCaseScreen from '@/screens/NewCaseScreen';
 import VoiceAssistantScreen from '@/screens/VoiceAssistantScreen';
@@ -16,6 +17,7 @@ export default function TabNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           const icons: Record<string, string> = {
+            HomeTab: focused ? 'home' : 'home-outline',
             CasesTab: focused ? 'list' : 'list-outline',
             NewCaseTab: focused ? 'add-circle' : 'add-circle-outline',
             MapTab: focused ? 'map' : 'map-outline',
@@ -37,6 +39,7 @@ export default function TabNavigator() {
         headerShown: false,
       })}
     >
+      <Tab.Screen name="HomeTab" component={HomeScreen} options={{ title: 'ホーム', headerShown: false }} />
       <Tab.Screen name="CasesTab" component={CaseStackNavigator} options={{ title: '案件' }} />
       <Tab.Screen name="NewCaseTab" component={NewCaseScreen} options={{ title: '新規案件', headerShown: true, headerStyle: { backgroundColor: COLORS.navy }, headerTintColor: COLORS.white, headerTitleStyle: { fontWeight: '700' } }} />
       <Tab.Screen name="MapTab" component={PlaceholderMapTab} options={{ title: '地図' }} />

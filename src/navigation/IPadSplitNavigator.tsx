@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import type { CaseStackParamList, RootTabParamList } from '@/types/navigation';
+import HomeScreen from '@/screens/HomeScreen';
 import CaseListScreen from '@/screens/CaseListScreen';
 import CaseDetailScreen from '@/screens/CaseDetailScreen';
 import MapRouteScreen from '@/screens/MapRouteScreen';
@@ -78,6 +79,7 @@ export default function IPadSplitNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           const icons: Record<string, string> = {
+            HomeTab: focused ? 'home' : 'home-outline',
             CasesTab: focused ? 'list' : 'list-outline',
             NewCaseTab: focused ? 'add-circle' : 'add-circle-outline',
             MapTab: focused ? 'map' : 'map-outline',
@@ -96,6 +98,7 @@ export default function IPadSplitNavigator() {
         headerShown: false,
       })}
     >
+      <Tab.Screen name="HomeTab" component={HomeScreen} options={{ title: 'ホーム', headerShown: false }} />
       <Tab.Screen name="CasesTab" component={CaseSplitView} options={{ title: '案件' }} />
       <Tab.Screen
         name="NewCaseTab"

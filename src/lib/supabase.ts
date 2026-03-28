@@ -108,6 +108,21 @@ export async function updateCaseSignature(caseId: string, signatureUrl: string):
   if (error) throw error;
 }
 
+export async function updateCaseTripData(
+  caseId: string,
+  distanceKm: number,
+): Promise<void> {
+  const { error } = await supabase
+    .from('insurance_cases')
+    .update({
+      distance_km: distanceKm,
+      tow_status: 'repair',
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', caseId);
+  if (error) throw error;
+}
+
 export async function updateCaseFare(
   caseId: string,
   distanceKm: number,
@@ -165,6 +180,18 @@ export async function fetchAllCustomers(): Promise<Customer[]> {
   return (data as Customer[]) ?? [];
 }
 
+export async function insertCustomer(
+  data: Pick<Customer, 'name'> & Partial<Pick<Customer, 'phone' | 'email' | 'address'>>
+): Promise<Customer> {
+  const { data: result, error } = await supabase
+    .from('customers')
+    .insert(data)
+    .select()
+    .single();
+  if (error) throw error;
+  return result as Customer;
+}
+
 // ── Vehicles ──────────────────────────────────────────────────────────────
 
 export async function fetchVehiclesByCustomer(customerId: string): Promise<Vehicle[]> {
@@ -174,6 +201,18 @@ export async function fetchVehiclesByCustomer(customerId: string): Promise<Vehic
     .eq('customer_id', customerId);
   if (error) throw error;
   return (data as Vehicle[]) ?? [];
+}
+
+export async function insertVehicle(
+  data: Pick<Vehicle, 'customer_id' | 'plate'> & Partial<Pick<Vehicle, 'make' | 'model' | 'year' | 'vin'>>
+): Promise<Vehicle> {
+  const { data: result, error } = await supabase
+    .from('vehicles')
+    .insert(data)
+    .select()
+    .single();
+  if (error) throw error;
+  return result as Vehicle;
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────

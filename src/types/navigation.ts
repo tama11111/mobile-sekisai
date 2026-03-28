@@ -3,6 +3,7 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 
 export type RootTabParamList = {
+  HomeTab: undefined;
   CasesTab: undefined;
   NewCaseTab: undefined;
   MapTab: { caseId?: string } | undefined;
