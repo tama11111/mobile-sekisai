@@ -51,7 +51,6 @@
           "locationWhenInUsePermission": "現在地から経路を表示するために使用します"
         }
       ],
-      "expo-battery",
     ],
     "extra": {
       "eas": {
