@@ -19,7 +19,8 @@ export async function fetchCases(): Promise<InsuranceCase[]> {
     .select(`
       *,
       customer:customers(*),
-      vehicle:vehicles(*)
+      vehicle:vehicles(*),
+      insurance_details(*)
     `)
     .order('created_at', { ascending: false });
 

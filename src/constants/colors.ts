@@ -12,10 +12,19 @@ export const COLORS = {
   darkGray: '#424242',
   black: '#000000',
   // tow_status colors
-  statusTow: '#FFA726',       // amber - dispatched
-  statusArrival: '#42A5F5',   // blue - on scene
-  statusRepair: '#FF7043',    // deep orange - in shop
-  statusClaim: '#66BB6A',     // green - insurance filed
+  statusTow: '#FFA726',          // amber - dispatched
+  statusArrival: '#42A5F5',      // blue - on scene
+  statusRepair: '#FF7043',       // deep orange - in shop
+  statusClaim: '#66BB6A',        // green - insurance filed
+  statusPaid: '#9E9E9E',         // gray - completed/paid
+  // accident_status colors
+  statusReception: '#AB47BC',    // purple - received
+  statusAdjuster: '#26A69A',     // teal - adjuster
+  statusRepairing: '#EF5350',    // red - repairing
+  statusAgreement: '#66BB6A',    // green - agreement reached
+  // case_type colors
+  typeTow: '#1565C0',            // dark blue - tow
+  typeAccident: '#B71C1C',       // dark red - accident
   // UI
   error: '#EF5350',
   success: '#66BB6A',
