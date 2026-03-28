@@ -42,12 +42,11 @@ export default function NewCaseScreen() {
       tow_origin_address: '',
       tow_destination_address: '',
       notes: '',
-      insurer_name: '',
-      policy_number: '',
-      claim_number: '',
-      adjuster_name: '',
-      adjuster_phone: '',
-      coverage_type: '',
+      case_type: 'tow' as const,
+      insurance_company: '',
+      insurance_contact: '',
+      insurance_phone: '',
+      insurance_fax: '',
     },
   });
 
@@ -66,6 +65,8 @@ export default function NewCaseScreen() {
       const newCase = await insertCase({
         customer_id: selectedCustomer.id,
         vehicle_id: selectedVehicle?.id ?? null,
+        title: data.tow_origin_address || selectedCustomer.name,
+        status: 'inquiry',
         tow_status: 'tow',
         tow_origin_address: data.tow_origin_address,
         tow_destination_address: data.tow_destination_address,
@@ -73,18 +74,19 @@ export default function NewCaseScreen() {
         fare_amount: null,
         photos: null,
         signature_url: null,
+        note: null,
         notes: data.notes || null,
+        assigned_to: null,
       });
 
-      if (data.insurer_name) {
+      if (data.insurance_company) {
         await insertInsuranceDetail({
           case_id: newCase.id,
-          insurer_name: data.insurer_name || null,
-          policy_number: data.policy_number || null,
-          claim_number: data.claim_number || null,
-          adjuster_name: data.adjuster_name || null,
-          adjuster_phone: data.adjuster_phone || null,
-          coverage_type: data.coverage_type || null,
+          case_type: data.case_type,
+          insurance_company: data.insurance_company || null,
+          insurance_contact: data.insurance_contact || null,
+          insurance_phone: data.insurance_phone || null,
+          insurance_fax: data.insurance_fax || null,
         });
       }
 
@@ -219,23 +221,17 @@ export default function NewCaseScreen() {
         {/* Step 2: Insurance */}
         {step === 2 && (
           <SectionCard title="保険情報（任意）">
-            <Controller control={control} name="insurer_name" render={({ field }) => (
+            <Controller control={control} name="insurance_company" render={({ field }) => (
               <FormField label="保険会社名" placeholder="例: 東京海上日動" value={field.value} onChangeText={field.onChange} />
             )} />
-            <Controller control={control} name="policy_number" render={({ field }) => (
-              <FormField label="証券番号" value={field.value} onChangeText={field.onChange} />
-            )} />
-            <Controller control={control} name="claim_number" render={({ field }) => (
-              <FormField label="クレーム番号" value={field.value} onChangeText={field.onChange} />
-            )} />
-            <Controller control={control} name="adjuster_name" render={({ field }) => (
+            <Controller control={control} name="insurance_contact" render={({ field }) => (
               <FormField label="担当者名" value={field.value} onChangeText={field.onChange} />
             )} />
-            <Controller control={control} name="adjuster_phone" render={({ field }) => (
+            <Controller control={control} name="insurance_phone" render={({ field }) => (
               <FormField label="担当者電話" keyboardType="phone-pad" value={field.value} onChangeText={field.onChange} />
             )} />
-            <Controller control={control} name="coverage_type" render={({ field }) => (
-              <FormField label="補償タイプ" placeholder="例: 車両保険" value={field.value} onChangeText={field.onChange} />
+            <Controller control={control} name="insurance_fax" render={({ field }) => (
+              <FormField label="FAX番号" keyboardType="phone-pad" value={field.value} onChangeText={field.onChange} />
             )} />
           </SectionCard>
         )}
@@ -248,7 +244,7 @@ export default function NewCaseScreen() {
               <ConfirmRow label="車両" value={selectedVehicle?.plate} />
               <ConfirmRow label="出発地" value={values.tow_origin_address} />
               <ConfirmRow label="目的地" value={values.tow_destination_address} />
-              {values.insurer_name && <ConfirmRow label="保険会社" value={values.insurer_name} />}
+              {values.insurance_company && <ConfirmRow label="保険会社" value={values.insurance_company} />}
               {values.notes && <ConfirmRow label="備考" value={values.notes} />}
             </SectionCard>
             <GoldButton
