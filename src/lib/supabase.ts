@@ -86,7 +86,7 @@ export async function insertCase(
 }
 
 export async function insertInsuranceDetail(
-  data: Omit<InsuranceDetail, 'id' | 'created_at'>
+  data: Pick<InsuranceDetail, 'case_id' | 'case_type'> & Partial<Omit<InsuranceDetail, 'id' | 'created_at' | 'updated_at' | 'case_id' | 'case_type'>>
 ): Promise<InsuranceDetail> {
   const { data: result, error } = await supabase
     .from('insurance_details')

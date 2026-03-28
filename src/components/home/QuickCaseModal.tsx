@@ -81,12 +81,10 @@ export default function QuickCaseModal({ visible, prefilled, onCompleted, onClos
 
   // 保険情報
   const [insuranceOpen, setInsuranceOpen] = useState(false);
-  const [insurerName, setInsurerName] = useState('');
-  const [policyNumber, setPolicyNumber] = useState('');
-  const [claimNumber, setClaimNumber] = useState('');
-  const [adjusterName, setAdjusterName] = useState('');
-  const [adjusterPhone, setAdjusterPhone] = useState('');
-  const [coverageType, setCoverageType] = useState('');
+  const [insuranceCompany, setInsuranceCompany] = useState('');
+  const [insuranceContact, setInsuranceContact] = useState('');
+  const [insurancePhone, setInsurancePhone] = useState('');
+  const [insuranceFax, setInsuranceFax] = useState('');
 
   // 備考
   const [notes, setNotes] = useState('');
@@ -104,12 +102,10 @@ export default function QuickCaseModal({ visible, prefilled, onCompleted, onClos
     setCustomer(null);
     setVehicle(null);
     setFareAmount('');
-    setInsurerName('');
-    setPolicyNumber('');
-    setClaimNumber('');
-    setAdjusterName('');
-    setAdjusterPhone('');
-    setCoverageType('');
+    setInsuranceCompany('');
+    setInsuranceContact('');
+    setInsurancePhone('');
+    setInsuranceFax('');
     setNotes('');
     setInsuranceOpen(false);
   };
@@ -123,6 +119,8 @@ export default function QuickCaseModal({ visible, prefilled, onCompleted, onClos
       const newCase = await insertCase({
         customer_id: customer.id,
         vehicle_id: vehicle?.id ?? null,
+        title: originAddress.trim() || customer.name,
+        status: 'in_progress',
         tow_status: 'repair',
         tow_origin_address: originAddress.trim() || null,
         tow_destination_address: destAddress.trim() || null,
@@ -130,20 +128,21 @@ export default function QuickCaseModal({ visible, prefilled, onCompleted, onClos
         fare_amount: fareAmount ? Number(fareAmount) : null,
         photos: null,
         signature_url: null,
+        note: null,
         notes: notes.trim() || null,
+        assigned_to: null,
       });
 
       // ── 保険情報 ──
-      if (insurerName.trim()) {
+      if (insuranceCompany.trim()) {
         setSubmitStatus('保険情報を保存中...');
         await insertInsuranceDetail({
           case_id: newCase.id,
-          insurer_name: insurerName.trim() || null,
-          policy_number: policyNumber.trim() || null,
-          claim_number: claimNumber.trim() || null,
-          adjuster_name: adjusterName.trim() || null,
-          adjuster_phone: adjusterPhone.trim() || null,
-          coverage_type: coverageType.trim() || null,
+          case_type: 'tow',
+          insurance_company: insuranceCompany.trim() || null,
+          insurance_contact: insuranceContact.trim() || null,
+          insurance_phone: insurancePhone.trim() || null,
+          insurance_fax: insuranceFax.trim() || null,
         });
       }
 
@@ -262,12 +261,10 @@ export default function QuickCaseModal({ visible, prefilled, onCompleted, onClos
 
             {insuranceOpen && (
               <View style={styles.accordionBody}>
-                <FormField label="保険会社名"   value={insurerName}    onChangeText={setInsurerName}    placeholder="例: 東京海上日動" />
-                <FormField label="証券番号"     value={policyNumber}   onChangeText={setPolicyNumber}   placeholder="証券番号" />
-                <FormField label="クレーム番号" value={claimNumber}    onChangeText={setClaimNumber}    placeholder="クレーム番号" />
-                <FormField label="担当者名"     value={adjusterName}   onChangeText={setAdjusterName}   placeholder="担当者名" />
-                <FormField label="担当者電話"   value={adjusterPhone}  onChangeText={setAdjusterPhone}  placeholder="担当者電話番号" keyboardType="phone-pad" />
-                <FormField label="補償タイプ"   value={coverageType}   onChangeText={setCoverageType}   placeholder="例: 車両保険" />
+                <FormField label="保険会社名" value={insuranceCompany}  onChangeText={setInsuranceCompany}  placeholder="例: 東京海上日動" />
+                <FormField label="担当者名"   value={insuranceContact}  onChangeText={setInsuranceContact}  placeholder="担当者名" />
+                <FormField label="担当者電話" value={insurancePhone}    onChangeText={setInsurancePhone}    placeholder="担当者電話番号" keyboardType="phone-pad" />
+                <FormField label="FAX番号"    value={insuranceFax}     onChangeText={setInsuranceFax}      placeholder="FAX番号" keyboardType="phone-pad" />
               </View>
             )}
 

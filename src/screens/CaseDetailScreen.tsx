@@ -144,8 +144,9 @@ export default function CaseDetailScreen() {
             <SectionCard title="顧客情報">
               <InfoRow icon="person" label="氏名" value={caseData.customer?.name} />
               <InfoRow icon="call" label="電話" value={caseData.customer?.phone} />
-              <InfoRow icon="mail" label="メール" value={caseData.customer?.email} />
-              <InfoRow icon="location" label="住所" value={caseData.customer?.address} />
+              <InfoRow icon="location" label="住所" value={
+                [caseData.customer?.address_line1, caseData.customer?.address_line2].filter(Boolean).join(' ') || undefined
+              } />
             </SectionCard>
 
             {/* Vehicle */}
@@ -163,11 +164,10 @@ export default function CaseDetailScreen() {
             {/* Insurance */}
             {detail && (
               <SectionCard title="保険情報">
-                <InfoRow icon="shield" label="保険会社" value={detail.insurer_name} />
-                <InfoRow icon="document-text" label="証券番号" value={detail.policy_number} />
-                <InfoRow icon="receipt" label="クレーム番号" value={detail.claim_number} />
-                <InfoRow icon="person-circle" label="担当者" value={detail.adjuster_name} />
-                <InfoRow icon="call" label="担当者電話" value={detail.adjuster_phone} />
+                <InfoRow icon="shield" label="保険会社" value={detail.insurance_company} />
+                <InfoRow icon="person-circle" label="担当者" value={detail.insurance_contact} />
+                <InfoRow icon="call" label="担当者電話" value={detail.insurance_phone} />
+                <InfoRow icon="print-outline" label="FAX" value={detail.insurance_fax} />
               </SectionCard>
             )}
 
