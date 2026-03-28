@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { ja } from 'date-fns/locale';
 import type { CaseEvent } from '@/types/database';
 import { fetchCaseEvents, insertCaseEvent } from '@/lib/supabase';
@@ -67,7 +67,7 @@ export default function EventTimeline({ caseId }: Props) {
         <Text style={styles.eventMessage}>{item.message}</Text>
         <Text style={styles.eventMeta}>
           {item.created_by} ·{' '}
-          {format(new Date(item.created_at), 'M/d HH:mm', { locale: ja })}
+          {formatInTimeZone(item.created_at, 'Asia/Tokyo', 'M/d HH:mm', { locale: ja })}
         </Text>
       </View>
     </View>

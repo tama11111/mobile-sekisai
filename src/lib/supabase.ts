@@ -28,12 +28,16 @@ export async function fetchCases(): Promise<InsuranceCase[]> {
 }
 
 export async function fetchTodayCases(): Promise<InsuranceCase[]> {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // Compute today's midnight in JST (UTC+9) to avoid timezone-dependent filtering
+  const now = new Date();
+  const jstOffsetMs = 9 * 60 * 60 * 1000;
+  const jstNow = new Date(now.getTime() + jstOffsetMs);
+  jstNow.setUTCHours(0, 0, 0, 0);
+  const todayJSTinUTC = new Date(jstNow.getTime() - jstOffsetMs);
   const { data, error } = await supabase
     .from('insurance_cases')
     .select(`*, customer:customers(*), vehicle:vehicles(*)`)
-    .gte('created_at', today.toISOString())
+    .gte('created_at', todayJSTinUTC.toISOString())
     .in('tow_status', ['tow', 'arrival', 'repair'])
     .order('created_at', { ascending: false });
 

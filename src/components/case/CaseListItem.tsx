@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { ja } from 'date-fns/locale';
 import type { InsuranceCase } from '@/types/database';
 import StatusBadge from '@/components/common/StatusBadge';
@@ -15,8 +15,7 @@ interface Props {
 }
 
 export default function CaseListItem({ item, onPress, isSelected = false }: Props) {
-  const createdAt = new Date(item.created_at);
-  const formattedDate = format(createdAt, 'M/d HH:mm', { locale: ja });
+  const formattedDate = formatInTimeZone(item.created_at, 'Asia/Tokyo', 'M/d HH:mm', { locale: ja });
 
   return (
     <TouchableOpacity
